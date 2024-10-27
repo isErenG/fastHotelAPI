@@ -5,10 +5,11 @@ from app.models.user import User
 
 
 class UserRepositoryInterface(ABC):
+
     @abstractmethod
     async def retrieve_user(self, user_id: uuid.UUID):
         pass
 
     @abstractmethod
-    async def upload_user(self, user: User):
+    async def create_user(self, user: User):
         pass

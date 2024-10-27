@@ -12,8 +12,8 @@ class UserRepository(UserRepositoryInterface):
 
     @override
     async def retrieve_user(self, user_id: uuid.UUID):
-        pass
+        return user_id
 
     @override
-    async def upload_user(self, user: User):
-        pass
+    async def create_user(self, user: User):
+        return user

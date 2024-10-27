@@ -1,11 +1,9 @@
 import uuid
-
 from dataclasses import dataclass
-from typing import List
-
 
 @dataclass
-class Hotel:
+class Review:
+    userID: uuid.UUID
     hotelID: uuid.UUID
-    name: str
-    address: str
+    rating: int
+    comment: str
