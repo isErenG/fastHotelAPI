@@ -19,7 +19,7 @@ A small project to learn and experiment with the [FastAPI](https://fastapi.tiang
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/FastHotelAPI.git
+   git clone https://github.com/isErenG/FastHotelAPI.git
    cd FastHotelAPI
    ```
 
