@@ -3,7 +3,8 @@ create table users
     user_id uuid default gen_random_uuid() not null
         primary key,
     name    varchar(255)                   not null,
-    email   varchar(255)                   not null
+    email   varchar(255)                   not null,
+    pasword text
 );
 
 alter table users

@@ -1,10 +1,6 @@
-from http.client import HTTPResponse
-from typing import Annotated
+from fastapi import HTTPException
+from pydantic import BaseModel
 
-from fastapi import Body, HTTPException
-from pydantic import BaseModel, Field
-
-from app.models.user import User
 from app.routers import router, user_repository
 
 
