@@ -16,5 +16,5 @@ class UserRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def create_user(self, user: User) -> Exception:
+    async def create_user(self, username: str, email: str, password: str) -> Exception:
         pass

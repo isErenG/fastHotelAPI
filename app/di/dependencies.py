@@ -6,7 +6,7 @@ from app.models.repository.user_repository_abs import UserRepositoryInterface
 
 
 def get_hotel_repository() -> HotelRepositoryInterface:
-    return HotelRepository()  # Return an instance of the implementation
+    return HotelRepository()
 
 
 def get_user_repository() -> UserRepositoryInterface:

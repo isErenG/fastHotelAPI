@@ -1,7 +1,10 @@
 import uuid
+from typing import List
 
 from typing_extensions import override
 
+from app.data.mapper import hotel_mapper
+from app.data.repository import cursor
 from app.models.hotel import Hotel
 from app.models.repository.hotel_reposiotry_abs import HotelRepositoryInterface
 
@@ -9,6 +12,19 @@ from app.models.repository.hotel_reposiotry_abs import HotelRepositoryInterface
 class HotelRepository(HotelRepositoryInterface):
     def __init__(self):
         super().__init__()
+
+    @override
+    async def get_all_hotels(self) -> List[Hotel]:
+        hotel_list = []
+
+        cursor.execute("SELECT * FROM hotels")
+
+        results = cursor.fetchall()
+
+        for row in results:
+            hotel_list.append(hotel_mapper.map_to_model(row[0], row[1], row[2]))
+
+        return hotel_list
 
     @override
     async def retrieve_hotel(self, hotel_id: uuid.UUID):
