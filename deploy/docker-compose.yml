@@ -3,30 +3,34 @@ version: "3.8"
 services:
   db:
     image: postgres:15
-    env_file: ../.env
     environment:
-      POSTGRES_DB: ${POSTGRES_DATABASE?error}
-      POSTGRES_USER: ${POSTGRES_USER?error}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD?error}
-
+      POSTGRES_DB: "${POSTGRES_DB?error}"
+      POSTGRES_USER: "${POSTGRES_USER?error}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD?error}"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ../deploy/database_scripts.sql:/docker-entrypoint-initdb.d/database_scripts.sql
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
+    networks:
+      - app-network
 
   web:
     build:
       context: ..
       dockerfile: deploy/Dockerfile
-
+    env_file:
+      - ../.env
     depends_on:
       - db
-    environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DATABASE}"
     ports:
       - "8000:8000"
     command: [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000" ]
+    networks:
+      - app-network
 
 volumes:
   postgres_data:
+
+networks:
+  app-network:
