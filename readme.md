@@ -43,3 +43,8 @@ A small project to learn and experiment with the [FastAPI](https://fastapi.tiang
    cd deploy/
    docker compose --env-file ../.env up -d --build 
    ```
+   
+   If you wish to close the docker compose
+   ```bash
+   docker compose --env-file ../.env down
+   ```

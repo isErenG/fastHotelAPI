@@ -3,7 +3,6 @@ from typing import List, Optional
 
 from typing_extensions import override
 
-from app.data.mapper import user_mapper
 from app.data.repository import cursor
 from app.models.repository.user_repository_abs import UserRepositoryInterface
 from app.models.user import User
@@ -22,25 +21,35 @@ class UserRepository(UserRepositoryInterface):
         results = cursor.fetchall()
 
         for row in results:
-            user_list.append(User(user_mapper.map_to_model(user_id=row[0], name=row[1], email=row[2])))
+            user_list.append(User(userID=row[0], username=row[1], email=row[2], password=row[3]))
 
         return user_list
 
     @override
-    async def retrieve_user(self, user_id: uuid.UUID) -> Optional[User]:
+    async def retrieve_user_with_email(self, user_email: str) -> Optional[User]:
+        cursor.execute("SELECT * FROM users WHERE email = %s", (user_email,))
+
+        row = cursor.fetchone()
+
+        if row:
+            return User(userID=row[0], username=row[1], email=row[2], password=row[3])
+        return None
+
+    @override
+    async def retrieve_user_with_id(self, user_id: uuid.UUID) -> Optional[User]:
         cursor.execute("SELECT * FROM users WHERE user_id = %s", (user_id,))
 
         row = cursor.fetchone()
 
         if row:
-            return User(user_mapper.map_to_model(user_id, name=row[1], email=row[2]))
+            return User(userID=row[0], username=row[1], email=row[2], password=row[3])
         return None
 
     @override
     async def create_user(self, username: str, email: str, password: str):
         cursor.execute(
-            "INSERT INTO users (name, email) VALUES (%s, %s)",
-            (username, email)
+            "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
+            (username, email, password),
         )
 
         cursor.connection.commit()

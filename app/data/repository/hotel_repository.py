@@ -3,7 +3,7 @@ from typing import List
 
 from typing_extensions import override
 
-from app.data.mapper import hotel_mapper
+
 from app.data.repository import cursor
 from app.models.hotel import Hotel
 from app.models.repository.hotel_reposiotry_abs import HotelRepositoryInterface
@@ -22,7 +22,7 @@ class HotelRepository(HotelRepositoryInterface):
         results = cursor.fetchall()
 
         for row in results:
-            hotel_list.append(hotel_mapper.map_to_model(row[0], row[1], row[2]))
+            hotel_list.append(Hotel(hotelID=row[0], name=row[1], address=row[2]))
 
         return hotel_list
 

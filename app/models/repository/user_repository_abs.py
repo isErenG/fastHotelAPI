@@ -12,7 +12,11 @@ class UserRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def retrieve_user(self, user_id: uuid.UUID) -> User:
+    async def retrieve_user_with_email(self, user_email: str) -> User:
+        pass
+
+    @abstractmethod
+    async def retrieve_user_with_id(self, user_id: uuid.UUID) -> User:
         pass
 
     @abstractmethod
