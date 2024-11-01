@@ -1,12 +1,13 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 
-from app.routers import router, hotel_repository
+from app.data.repository import hotel_repository
+from app.routers import router
 
 
 @router.get("/hotels")
 async def get_hotels():
     try:
-        return await hotel_repository.get_all_hotels()
+        return {}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

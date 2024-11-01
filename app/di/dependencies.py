@@ -7,12 +7,12 @@ from app.models.repository.review_repository_abs import ReviewRepositoryInterfac
 from app.models.repository.user_repository_abs import UserRepositoryInterface
 
 
-def get_hotel_repository() -> HotelRepositoryInterface:
+async def get_hotel_repository() -> HotelRepositoryInterface:
     return HotelRepository()
 
 
-def get_user_repository() -> UserRepositoryInterface:
+async def get_user_repository() -> UserRepositoryInterface:
     return UserRepository()
 
-def get_review_repository() -> ReviewRepositoryInterface:
+async def get_review_repository() -> ReviewRepositoryInterface:
     return ReviewRepository()

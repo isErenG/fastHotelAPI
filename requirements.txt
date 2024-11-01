@@ -4,4 +4,6 @@ python-dotenv~=1.0.1
 fastapi~=0.115.3
 pydantic~=2.9.2
 uvicorn
-passlib[bcrypt]
+passlib[bcrypt]~=1.7.4
+pyjwt~=2.9.0
+starlette~=0.41.0
