@@ -3,7 +3,6 @@ from typing import List
 
 from typing_extensions import override
 
-
 from app.data.repository import cursor
 from app.models.hotel import Hotel
 from app.models.repository.hotel_reposiotry_abs import HotelRepositoryInterface

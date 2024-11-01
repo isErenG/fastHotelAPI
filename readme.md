@@ -1,6 +1,7 @@
 # FastHotelAPI
 
-A small project to learn and experiment with the [FastAPI](https://fastapi.tiangolo.com/) Python library. This API provides endpoints for managing user reviews for hotels.
+A small project to learn and experiment with the [FastAPI](https://fastapi.tiangolo.com/) Python library. This API
+provides endpoints for managing user reviews for hotels.
 
 ## Features
 
@@ -22,7 +23,8 @@ A small project to learn and experiment with the [FastAPI](https://fastapi.tiang
 
 2. **Configure Environment Variables**
 
-   Fill in the `.env` file with your PostgreSQL credentials. An example file `.envexample` is provided. Copy it to create your own `.env` file:
+   Fill in the `.env` file with your PostgreSQL credentials. An example file `.envexample` is provided. Copy it to
+   create your own `.env` file:
 
    ```bash
    cp .envexample .env
@@ -37,13 +39,13 @@ A small project to learn and experiment with the [FastAPI](https://fastapi.tiang
    POSTGRES_HOST=db
    POSTGRES_PORT=5432
    ```
-   
+
 3. Launch with docker
    ```bash
    cd deploy/
    docker compose --env-file ../.env up -d --build 
    ```
-   
+
    If you wish to close the docker compose
    ```bash
    docker compose --env-file ../.env down

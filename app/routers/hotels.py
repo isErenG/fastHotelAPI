@@ -1,6 +1,5 @@
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException
 
-from app.data.repository import hotel_repository
 from app.routers import router
 
 

@@ -13,3 +13,4 @@ class Config:
     ACCESS_TOKEN_EXPIRE_MINUTES = 30
     REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7
     ALGORITHM = "HS256"
+    LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO').upper()

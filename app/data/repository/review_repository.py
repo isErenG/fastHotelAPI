@@ -1,10 +1,11 @@
 import uuid
 from typing import List, Optional
+
 from typing_extensions import override
 
 from app.data.repository import cursor
-from app.models.review import Review
 from app.models.repository.review_repository_abs import ReviewRepositoryInterface
+from app.models.review import Review
 
 
 class ReviewRepository(ReviewRepositoryInterface):

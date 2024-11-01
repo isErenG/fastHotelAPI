@@ -43,6 +43,6 @@ def calculate_expires_delta(expires_delta, expire_duration):
         expires_delta = datetime.now() + timedelta(minutes=expire_duration)
     return expires_delta
 
+
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     return verify_token(token)
-
