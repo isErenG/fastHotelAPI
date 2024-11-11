@@ -16,5 +16,5 @@ class HotelRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def upload_hotel(self, hotel: Hotel):
+    async def upload_hotel(self, hotel: Hotel) -> uuid.UUID:
         pass

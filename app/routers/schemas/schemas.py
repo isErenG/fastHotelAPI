@@ -9,6 +9,11 @@ class UserBody(BaseModel):
     password: str
 
 
+class HotelBody(BaseModel):
+    name: str
+    address: str
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str

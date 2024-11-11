@@ -1,5 +1,6 @@
 import uuid
 from typing import List
+from venv import logger
 
 from typing_extensions import override
 
@@ -30,5 +31,9 @@ class HotelRepository(HotelRepositoryInterface):
         pass
 
     @override
-    async def upload_hotel(self, hotel: Hotel):
-        pass
+    async def upload_hotel(self, hotel: Hotel) -> uuid.UUID:
+        cursor.execute(
+            "INSERT INTO hotels (hotel_name, address) VALUES (%s, %s) RETURNING hotel_id", (hotel.name, hotel.address)
+        )
+        hotel_id = uuid.UUID(cursor.fetchone()[0])
+        return hotel_id
