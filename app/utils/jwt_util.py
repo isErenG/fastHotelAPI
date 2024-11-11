@@ -6,6 +6,8 @@ from fastapi import HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
 from starlette import status
 
+from app.data.repository.user_repository import UserRepository
+from app.di.dependencies import get_user_repository
 from app.utils.config import Config
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -44,5 +46,6 @@ def calculate_expires_delta(expires_delta, expire_duration):
     return expires_delta
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
-    return verify_token(token)
+async def get_current_user(token: str = Depends(oauth2_scheme),
+                           db: UserRepository = Depends(get_user_repository)):
+    return await db.retrieve_user_with_id(verify_token(token)["sub"]["id"])
