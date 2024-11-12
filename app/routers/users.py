@@ -1,7 +1,9 @@
 import logging
 
 from fastapi import HTTPException, Depends
+from starlette.responses import HTMLResponse
 
+from app import env
 from app.data.repository import user_repository
 from app.di.dependencies import get_user_repository
 from app.models.user import User
@@ -15,7 +17,13 @@ from app.utils.password_util import *
 async def get_users(db: user_repository.UserRepository = Depends(get_user_repository),
                     current_user: User = Depends(get_current_user)):
     try:
-        return await db.get_all_users()
+
+        users = await db.get_all_users()
+        # Load the template
+        template = env.get_template('user_list.html')
+        # Render the template with the users data
+        return HTMLResponse(content=template.render(users=users))
+
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

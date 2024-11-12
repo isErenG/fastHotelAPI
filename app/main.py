@@ -1,12 +1,15 @@
 import logging
 
 from fastapi import FastAPI
+from jinja2 import FileSystemLoader, Environment
 
 from .middleware.logging import LoggingMiddleware
 from .routers import hotels
 from .routers import reviews
 from .routers import users
 from .utils.config import Config
+
+
 
 app = FastAPI()
 
