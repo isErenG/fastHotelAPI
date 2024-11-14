@@ -5,6 +5,6 @@ from dataclasses import dataclass
 
 @dataclass
 class Hotel:
-    hotelID: uuid.UUID
+    hotel_id: uuid.UUID
     name: str
     address: str

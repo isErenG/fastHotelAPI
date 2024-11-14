@@ -5,8 +5,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Review:
-    reviewID: uuid.UUID
-    userID: uuid.UUID
-    hotelID: uuid.UUID
+    review_id: uuid.UUID
+    user_id: uuid.UUID
+    hotel_id: uuid.UUID
     rating: int
     comment: str

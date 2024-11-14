@@ -41,7 +41,7 @@ class ReviewRepository(ReviewRepositoryInterface):
         results = cursor.fetchall()
 
         for row in results:
-            review_list.append(Review(reviewID=row[0], userID=row[1], hotelID=row[2], rating=row[3], comment=row[4]))
+            review_list.append(Review(review_id=row[0], user_id=row[1], hotel_id=row[2], rating=row[3], comment=row[4]))
 
         return review_list
 
@@ -51,7 +51,7 @@ class ReviewRepository(ReviewRepositoryInterface):
         row = cursor.fetchone()
 
         if row:
-            return Review(reviewID=row[0], userID=row[1], hotelID=row[2], rating=row[3], comment=row[4])
+            return Review(review_id=row[0], user_id=row[1], hotel_id=row[2], rating=row[3], comment=row[4])
 
         return None
 
@@ -61,7 +61,7 @@ class ReviewRepository(ReviewRepositoryInterface):
         try:
             cursor.execute(
                 "INSERT INTO reviews (review_id, user_id, hotel_id, rating, comment) VALUES (%s, %s, %s, %s, %s)",
-                (str(review.reviewID), str(review.userID), str(review.hotelID), review.rating, review.comment)
+                (str(review.review_id), str(review.user_id), str(review.hotel_id), review.rating, review.comment)
             )
         except psycopg2.errors.ForeignKeyViolation as e:
             logging.exception(e)

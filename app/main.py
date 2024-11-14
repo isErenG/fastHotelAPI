@@ -1,32 +1,22 @@
 import logging
 
 from fastapi import FastAPI
-from starlette.middleware.cors import CORSMiddleware
 
+from app.routers import users
+from app.routers.admin import admin_router
+from .middleware.admin_auth import AdminOnlyMiddleware
 from .middleware.logging import LoggingMiddleware
-from .routers import hotels
-from .routers import reviews
-from .routers import users
+from .routers.users import hotels, reviews
 from .utils.config import Config
 
 app = FastAPI()
 
-logging.basicConfig(level=getattr(logging, Config.LOG_LEVEL, logging.INFO))
-
-origins = [
-    "http://localhost",
-    "http://localhost:8000",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+logging.basicConfig(level=getattr(logging, Config.LOG_LEVEL))
 
 app.add_middleware(LoggingMiddleware)
+app.add_middleware(AdminOnlyMiddleware)
+
+app.include_router(admin_router)
 app.include_router(hotels.router)
 app.include_router(users.router)
 app.include_router(reviews.router)

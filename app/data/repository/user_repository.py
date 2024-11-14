@@ -21,7 +21,7 @@ class UserRepository(UserRepositoryInterface):
         results = cursor.fetchall()
 
         for row in results:
-            user_list.append(User(userID=row[0], username=row[1], email=row[2], password=row[3]))
+            user_list.append(User(user_id=row[0], username=row[1], email=row[2], password=row[3]))
 
         return user_list
 
@@ -32,7 +32,7 @@ class UserRepository(UserRepositoryInterface):
         row = cursor.fetchone()
 
         if row:
-            return User(userID=row[0], username=row[1], email=row[2], password=row[3])
+            return User(user_id=row[0], username=row[1], email=row[2], password=row[3])
         return None
 
     @override
@@ -42,7 +42,7 @@ class UserRepository(UserRepositoryInterface):
         row = cursor.fetchone()
 
         if row:
-            return User(userID=row[0], username=row[1], email=row[2], password=row[3])
+            return User(user_id=row[0], username=row[1], email=row[2], password=row[3])
         return None
 
     @override
@@ -51,5 +51,16 @@ class UserRepository(UserRepositoryInterface):
             "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
             (username, email, password),
         )
+
+        cursor.connection.commit()
+
+    async def delete_user(self, user_id: uuid.UUID):
+        cursor.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
+
+        cursor.connection.commit()
+
+    async def update_user(self, updated_user: User):
+        cursor.execute("UPDATE users SET name = %s, email = %s WHERE user_id = %s",
+                       (updated_user.username, updated_user.email, updated_user.user_id))
 
         cursor.connection.commit()

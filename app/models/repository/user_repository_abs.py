@@ -20,5 +20,13 @@ class UserRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def create_user(self, username: str, email: str, password: str) -> Exception:
+    async def create_user(self, username: str, email: str, password: str):
+        pass
+
+    @abstractmethod
+    async def delete_user(self, user_id: uuid.UUID):
+        pass
+
+    @abstractmethod
+    async def update_user(self, updated_user: User):
         pass

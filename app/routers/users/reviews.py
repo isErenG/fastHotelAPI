@@ -7,8 +7,8 @@ from app.data.repository import review_repository
 from app.di.dependencies import get_review_repository
 from app.models.review import Review
 from app.models.user import User
-from app.routers import router
-from app.utils.jwt_util import get_current_user
+from app.routers.users import router
+from app.utils.jwt_helper import get_current_user
 
 
 @router.get("/reviews")
@@ -32,10 +32,10 @@ async def create_user(
         current_user: User = Depends(get_current_user)):
     review_id = uuid.uuid4()
 
-    new_review = Review(reviewID=review_id,
+    new_review = Review(review_id=review_id,
                         rating=review.rating,
-                        userID=current_user.userID,
-                        hotelID=review.hotelID,
+                        user_id=current_user.user_id,
+                        hotel_id=review.hotelID,
                         comment=review.comments)
 
     await db.upload_review(new_review)

@@ -22,7 +22,7 @@ class HotelRepository(HotelRepositoryInterface):
         results = cursor.fetchall()
 
         for row in results:
-            hotel_list.append(Hotel(hotelID=row[0], name=row[1], address=row[2]))
+            hotel_list.append(Hotel(hotel_id=row[0], name=row[1], address=row[2]))
 
         return hotel_list
 
