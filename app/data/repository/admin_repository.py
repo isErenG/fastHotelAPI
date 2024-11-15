@@ -2,6 +2,8 @@ import uuid
 from datetime import date
 from typing import Optional
 
+from fastapi import HTTPException
+
 from app.data.repository import cursor
 from app.models.admin import Admin
 from app.models.repository.admin_repository_abs import AdminRepositoryInterface
@@ -79,11 +81,13 @@ class AdminRepository(AdminRepositoryInterface):
 
         return await self.get_admin(admin_id)
 
-    async def get_admin_by_email(self, email: str) -> Optional[Admin]:
+    async def get_admin_by_email(self, email: str) -> Admin:
         cursor.execute("SELECT * FROM admins WHERE email = %s", (email,))
         row = cursor.fetchone()
 
         if row:
             return Admin(admin_id=row[0], username=row[1], email=row[2], password=row[3], start_date=row[4],
                          end_date=row[5])
-        return None
+
+        raise HTTPException(status_code=404, detail="Admin account not found")
+

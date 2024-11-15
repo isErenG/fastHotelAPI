@@ -52,8 +52,6 @@ async def update_user(
         current_user: Admin = Depends(admin_dependency),
 ):
     user = await db.retrieve_user_with_id(user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
 
     if user_data.username:
         user.username = user_data.username
@@ -72,11 +70,8 @@ async def admin_login(
         db: admin_repository.AdminRepository = Depends(get_admin_repository),
 ):
     admin = await db.get_admin_by_email(login_data.email)
-    if not admin:
-        raise HTTPException(status_code=404, detail="Admin account not found")
 
-    if not verify_password(login_data.password, admin.password):
-        raise HTTPException(status_code=401, detail="Incorrect email or password")
+    verify_password(login_data.password, admin.password)
 
     access_token = create_access_token(user_id=admin.admin_id, is_admin=True)
 

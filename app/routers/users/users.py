@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Depends, Response
+from fastapi import Depends, Response
 from fastapi.responses import JSONResponse
 
 from app.data.repository import user_repository
@@ -16,25 +16,18 @@ async def login(response: Response,
                 db: user_repository.UserRepository = Depends(get_user_repository)):
     existing_user = await db.retrieve_user_with_email(user.email)
 
-    if not existing_user:
-        raise HTTPException(status_code=404, detail="Account does not exist")
-
-    if not verify_password(user.password, existing_user.password):
-        raise HTTPException(status_code=401, detail="Incorrect email or password")
+    verify_password(user.password, existing_user.password)
 
     access_token = create_access_token(user_id=existing_user.user_id, is_admin=False)
     response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
     return JSONResponse(
-        content=TokenResponse(access_token=access_token, token_type="bearer", user_id=str(existing_user.user_id)).dict())
+        content=TokenResponse(access_token=access_token, token_type="bearer",
+                              user_id=str(existing_user.user_id)).dict())
 
 
 @router.post("/register", response_model=RegisterResponse)
 async def register(user: RegisterBody,
                    db: user_repository.UserRepository = Depends(get_user_repository)):
-    existing_user = await db.retrieve_user_with_email(user.email)
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Account already exists")
-
     await db.create_user(username=user.username, email=user.email,
                          password=get_password_hashed(user.password))
 

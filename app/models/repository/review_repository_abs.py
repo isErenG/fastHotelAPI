@@ -12,6 +12,10 @@ class ReviewRepositoryInterface(ABC):
         pass
 
     @abstractmethod
+    async def get_all_reviews_for_user(self, user_id: uuid.UUID) -> List[Review]:
+        pass
+
+    @abstractmethod
     async def get_reviews_for_hotel(self, hotel_id: uuid.UUID) -> List[Review]:
         pass
 
@@ -21,4 +25,8 @@ class ReviewRepositoryInterface(ABC):
 
     @abstractmethod
     async def upload_review(self, review: Review):
+        pass
+
+    @abstractmethod
+    async def delete_review(self, review_id: uuid.UUID):
         pass
