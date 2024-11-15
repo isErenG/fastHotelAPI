@@ -1,40 +1,70 @@
 
 # FastHotelAPI
 
-FastHotelAPI is a sample project built using [FastAPI](https://fastapi.tiangolo.com/) to explore REST API development with Python. This API provides endpoints for managing hotels, users, and reviews. It features role-based access for admin users and uses JWT for authentication.
+FastHotelAPI is a project built using [FastAPI](https://fastapi.tiangolo.com/) to explore REST API development with Python. It is designed to manage hotels, users, and reviews efficiently while utilizing role-based access control and secure JWT-based authentication.
 
-## Project Structure
+---
 
-The project is organized as follows:
+## Key Features
 
-- **app/**: Contains the main application code.
-  - **data/**: Handles database connections and repositories.
-    - **repository/**: Contains the repository classes for CRUD operations on `hotels`, `users`, and `reviews`.
-  - **di/**: Dependency injection for repositories, enabling easy management of dependencies in FastAPI routes.
-  - **middleware/**: Contains middleware classes such as:
-    - `AdminOnlyMiddleware` for access control on admin routes.
-    - `LoggingMiddleware` for logging incoming requests and response times.
-  - **models/**: Defines the data models for `Admin`, `User`, `Hotel`, and `Review`, along with abstract repository interfaces.
-  - **routers/**: Contains route definitions for different resources, organized by feature:
-    - **admin/**: Routes restricted to admin users.
-    - **users/**: Routes accessible by regular users.
-  - **schemas/**: Contains request and response schemas for API validation and serialization.
-  - **utils/**: Utility functions for tasks like JWT token generation and password hashing.
-  - **main.py**: The application entry point, setting up FastAPI and adding middleware and routers.
+### **Role-Based Access Control**
+- Admin-only routes for managing users and sensitive data.
+- Regular user routes for managing reviews and accessing hotel data.
 
-## Features
+### **Secure Authentication**
+- Implements JWT for authentication and authorization.
+- Supports both admin and user tokens with role distinction.
 
-- **Role-Based Access**: Admin-only routes for managing users and sensitive data.
-- **JWT Authentication**: Securely manages sessions for both users and admins.
-- **Hotels Management**: Add, view, and delete hotels.
-- **User Management**: Retrieve, create, and delete users.
-- **Review Management**: Manage reviews associated with hotels.
+### **Hotel Management**
+- Create, retrieve, and list all hotels.
+- Ensures scalability with proper repository and service separation.
 
-## Prerequisites
+### **User Management**
+- Admins can manage users, including retrieving, updating, and deleting accounts.
+- User registration and login are supported with secure password hashing.
 
-- **Docker**: Everything is run entirely in a docker container, no further installation required.
+### **Review Management**
+- Users can post, retrieve, and delete reviews for hotels.
+- Reviews are tied to hotels and users, ensuring a relational structure.
+
+---
+
+## Architecture
+
+### **1. Modular Design**
+The application is divided into layers:
+- **Routers:** Define API endpoints and handle HTTP requests and responses.
+- **Services:** Contain business logic, ensuring separation from data access logic.
+- **Repositories:** Handle database interactions, ensuring the persistence layer is isolated from the business logic.
+
+### **2. Dependency Injection**
+- Dependencies like repositories are injected using FastAPI's `Depends`, allowing for easier testing and modularity.
+
+### **3. Middleware**
+- **LoggingMiddleware:** Logs all incoming requests, response times, and errors.
+- **AdminOnlyMiddleware:** Restricts access to admin routes, ensuring enhanced security.
+
+### **4. Database Layer**
+- PostgreSQL is used as the database backend.
+- Repositories directly interact with the database, abstracting SQL queries and handling schema mappings.
+
+### **5. Security**
+- Secure password hashing using `bcrypt`.
+- Expirable JWT tokens for session management, with separate keys for access and refresh tokens.
+
+---
+
+## Deployment
+- Fully containerized using Docker, ensuring consistent environments across development and production.
+- `.env` configuration allows easy setup and deployment flexibility.
+
+---
 
 ## Setup
+
+Refer to the instructions below for launching the application.
+
+---
 
 1. **Clone the Repository**
 
