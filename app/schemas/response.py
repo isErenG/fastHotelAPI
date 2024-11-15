@@ -24,3 +24,9 @@ class RegisterResponse(BaseModel):
     message: str
     access_token: str
     user_id: str
+
+
+class HotelResponse(BaseModel):
+    hotel_id: str
+    name: str
+    address: str

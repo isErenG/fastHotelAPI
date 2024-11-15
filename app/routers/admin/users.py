@@ -1,80 +1,47 @@
 import uuid
 
-from fastapi import Depends, Path, HTTPException
-from starlette.responses import JSONResponse, Response
+from fastapi import Depends, Path
+from starlette.responses import JSONResponse
 
-from app.data.repository import user_repository, admin_repository
-from app.di.dependencies import get_user_repository, get_admin_repository
 from app.models.admin import Admin
 from app.routers.admin import admin_router
 from app.schemas.request import LoginBody, UpdateUserRequest
 from app.schemas.response import UsersResponse, UserResponse, TokenResponse
+from app.services.admin_service import AdminService
 from app.utils.admin_dependency import admin_dependency
-from app.utils.jwt_helper import create_access_token
-from app.utils.password_util import verify_password
 
 
 @admin_router.get("/users", response_model=UsersResponse, tags=["admin"])
 async def get_users(
-        db: user_repository.UserRepository = Depends(get_user_repository),
+        service: AdminService = Depends(AdminService),
         current_user: Admin = Depends(admin_dependency),
 ):
-    if not isinstance(current_user, Admin):
-        raise HTTPException(status_code=403, detail="Forbidden access")
-
-    users = await db.get_all_users()
-    user_data = [UserResponse(userID=str(user.user_id), username=user.username, email=user.email) for user in users]
-    return JSONResponse(content=UsersResponse(users=user_data).dict())
+    return UsersResponse(users=await service.get_users())
 
 
 @admin_router.delete("/users/{user_id}", tags=["admin"])
 async def delete_user(
         user_id: uuid.UUID = Path(..., description="The ID of the user to delete"),
-        db: user_repository.UserRepository = Depends(get_user_repository),
+        service: AdminService = Depends(AdminService),
         current_user: Admin = Depends(admin_dependency),
 ):
-    if not isinstance(current_user, Admin):
-        raise HTTPException(status_code=403, detail="Forbidden access")
-
-    user = await db.retrieve_user_with_id(user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    await db.delete_user(user_id)
-    return JSONResponse(content={"message": "User deleted successfully"}, status_code=200)
+    await service.delete_user(user_id)
+    return JSONResponse(content={"status": "success"})
 
 
 @admin_router.put("/users/{user_id}", response_model=UserResponse, tags=["admin"])
 async def update_user(
         user_data: UpdateUserRequest,
         user_id: uuid.UUID = Path(..., description="The ID of the user to update"),
-        db: user_repository.UserRepository = Depends(get_user_repository),
+        service: AdminService = Depends(AdminService),
         current_user: Admin = Depends(admin_dependency),
 ):
-    user = await db.retrieve_user_with_id(user_id)
-
-    if user_data.username:
-        user.username = user_data.username
-    if user_data.email:
-        user.email = user_data.email
-
-    await db.update_user(user)
-
-    return UserResponse(user_id=str(user.user_id), username=user.username, email=user.email)
+    return await service.update_user(user_id, user_data)
 
 
 @admin_router.post("/token", response_model=TokenResponse, tags=["admin"])
 async def admin_login(
-        response: Response,
         login_data: LoginBody,
-        db: admin_repository.AdminRepository = Depends(get_admin_repository),
+        service: AdminService = Depends(AdminService),
 ):
-    admin = await db.get_admin_by_email(login_data.email)
-
-    verify_password(login_data.password, admin.password)
-
-    access_token = create_access_token(user_id=admin.admin_id, is_admin=True)
-
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
-
-    return TokenResponse(access_token=access_token, token_type="bearer", user_id=str(admin.admin_id))
+    return await service.get_token(login_data)

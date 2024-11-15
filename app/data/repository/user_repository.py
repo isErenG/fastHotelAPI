@@ -40,7 +40,7 @@ class UserRepository(UserRepositoryInterface):
 
     @override
     async def retrieve_user_with_id(self, user_id: uuid.UUID) -> User:
-        cursor.execute("SELECT * FROM users WHERE user_id = %s", (user_id,))
+        cursor.execute("SELECT * FROM users WHERE user_id = %s", (str(user_id),))
 
         row = cursor.fetchone()
 

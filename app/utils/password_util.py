@@ -9,5 +9,4 @@ def get_password_hashed(password) -> str:
 
 
 def verify_password(plain_password, hashed_password):
-    if not pwd_context.verify(plain_password, hashed_password):
-        raise HTTPException(status_code=401, detail="Incorrect email or password")
+    return pwd_context.verify(plain_password, hashed_password)
