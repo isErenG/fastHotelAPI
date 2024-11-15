@@ -10,6 +10,22 @@ create table users
 alter table users
     owner to postgres;
 
+create table admins
+(
+    admin_id   uuid default gen_random_uuid() not null
+        primary key,
+    name       varchar(255) not null,
+    email      varchar(255) not null,
+    password   text         not null,
+    start_date date         not null,
+    end_date   date         not null
+);
+
+alter table admins
+    owner to postgres;
+
+
+
 create table hotels
 (
     hotel_id   uuid default gen_random_uuid() not null

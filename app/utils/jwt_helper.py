@@ -1,13 +1,14 @@
+import logging
 import uuid
 from datetime import datetime, timedelta
 from typing import Union
 
 import jwt
-from app.data.repository.admin_repository import AdminRepository  # New admin repository
 from fastapi import HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
 from starlette import status
 
+from app.data.repository.admin_repository import AdminRepository
 from app.data.repository.user_repository import UserRepository
 from app.di.dependencies import get_user_repository, get_admin_repository
 from app.models.admin import Admin
@@ -32,7 +33,7 @@ def create_access_token(user_id: uuid.UUID, is_admin: bool, expires_delta: int =
     to_encode = {
         "exp": expires_delta,
         "sub": {
-            "id": str(user_id),
+            "id": user_id,
             "is_admin": is_admin
         }
     }
@@ -81,3 +82,4 @@ async def get_current_user(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
 
     return user
+

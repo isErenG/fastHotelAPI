@@ -8,3 +8,4 @@ passlib[bcrypt]~=1.7.4
 pyjwt~=2.9.0
 starlette~=0.41.0
 pydantic[email]
+python-multipart
