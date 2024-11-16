@@ -46,7 +46,6 @@ class UserRepository(UserRepositoryInterface):
 
         if row:
             return User(user_id=row[0], username=row[1], email=row[2], password=row[3])
-        raise HTTPException(status_code=404, detail="User not found")
 
     @override
     async def create_user(self, username: str, email: str, password: str):

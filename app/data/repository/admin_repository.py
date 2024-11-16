@@ -89,5 +89,3 @@ class AdminRepository(AdminRepositoryInterface):
             return Admin(admin_id=row[0], username=row[1], email=row[2], password=row[3], start_date=row[4],
                          end_date=row[5])
 
-        raise HTTPException(status_code=404, detail="Admin account not found")
-
