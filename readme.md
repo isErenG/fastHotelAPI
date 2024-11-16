@@ -54,6 +54,17 @@ The application is divided into layers:
 
 ---
 
+## Areas of Improvement
+
+- **Admin Token Issues**: Admin tokens can access user endpoints, which sometimes results in errors. This happens because certain endpoints rely on `user_id` as a foreign key. When using an admin token, the ID belongs to the `admins` table instead of the `users` table, causing mismatches.
+- **Logging**: Logging could be improved. I'm not entirely sure if I'm doing it correctly or placing it in the right spots.
+- **Admin Dependencies**: The file `util/admin_dependencies.py` feels out of place. I’m not sure where it should go, but I’d prefer to restructure and move it elsewhere.
+- **Refresh Tokens**: I still need to implement functioning refresh tokens.
+- **Exception Handlers**: The file `middleware/exception_handlers.py` doesn’t feel like typical middleware. Its current location makes some sense, but I’m not entirely satisfied with it.
+- **Repository Exceptions**: I might need to move exceptions to the repository classes instead of handling them entirely in the service layer. I like the current cleanliness of the code, but I’m not sure if this is the best approach.
+
+---
+
 ## Deployment
 - Fully containerized using Docker, ensuring consistent environments across development and production.
 - `.env` configuration allows easy setup and deployment flexibility.
