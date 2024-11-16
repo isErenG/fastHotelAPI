@@ -30,6 +30,6 @@ class TokenData(BaseModel):
 
 
 class ReviewBody(BaseModel):
-    hotelID: uuid.UUID = Field(..., description="The UUID of the hotel being reviewed")
+    hotel_id: uuid.UUID = Field(..., description="The UUID of the hotel being reviewed")
     rating: int = Field(..., ge=1, le=5, description="The rating for the hotel (1 to 5)")
     comments: str = Field(..., max_length=500, description="Comments about the hotel")

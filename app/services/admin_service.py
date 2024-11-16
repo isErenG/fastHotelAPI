@@ -86,6 +86,6 @@ class AdminService:
             self.logger.warning(f"Invalid password for admin with email {login_data.email}")
             raise HTTPException(status_code=401, detail="Incorrect email or password")
 
-        access_token = create_access_token(user_id=admin.admin_id, is_admin=True)
-        self.logger.info(f"Token generated for admin with ID {admin.admin_id}")
-        return TokenResponse(access_token=access_token, token_type="bearer", user_id=str(admin.admin_id))
+        access_token = create_access_token(user_id=admin.user_id, is_admin=True)
+        self.logger.info(f"Token generated for admin with ID {admin.user_id}")
+        return TokenResponse(access_token=access_token, token_type="bearer", user_id=str(admin.user_id))

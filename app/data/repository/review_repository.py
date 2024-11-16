@@ -67,12 +67,14 @@ class ReviewRepository(ReviewRepositoryInterface):
                           comment=row[4])
 
     @override
-    async def upload_review(self, review: Review):
+    async def upload_review(self, review: Review) -> int:
         cursor.execute(
-            "INSERT INTO reviews (user_id, hotel_id, rating, comment) VALUES (%s, %s, %s, %s)",
+            "INSERT INTO reviews (user_id, hotel_id, rating, comment) VALUES (%s, %s, %s, %s) RETURNING review_id",
             (str(review.user_id), str(review.hotel_id), review.rating, review.comment)
         )
         cursor.connection.commit()
+
+        return cursor.fetchone()[0]
 
     @override
     async def delete_review(self, review_id: uuid.UUID):

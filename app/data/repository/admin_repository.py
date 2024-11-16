@@ -26,7 +26,7 @@ class AdminRepository(AdminRepositoryInterface):
 
         cursor.connection.commit()
 
-        return Admin(admin_id=admin_id, username=name, email=email, password=password, start_date=start_date,
+        return Admin(user_id=admin_id, username=name, email=email, password=password, start_date=start_date,
                      end_date=end_date)
 
     async def get_admin(self, admin_id: uuid.UUID) -> Optional[Admin]:
@@ -34,7 +34,7 @@ class AdminRepository(AdminRepositoryInterface):
         row = cursor.fetchone()
 
         if row:
-            return Admin(admin_id=row[0], username=row[1], email=row[2], password=row[3], start_date=row[4],
+            return Admin(user_id=row[0], username=row[1], email=row[2], password=row[3], start_date=row[4],
                          end_date=row[5])
 
         return None
@@ -86,6 +86,6 @@ class AdminRepository(AdminRepositoryInterface):
         row = cursor.fetchone()
 
         if row:
-            return Admin(admin_id=row[0], username=row[1], email=row[2], password=row[3], start_date=row[4],
+            return Admin(user_id=row[0], username=row[1], email=row[2], password=row[3], start_date=row[4],
                          end_date=row[5])
 

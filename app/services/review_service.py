@@ -34,19 +34,19 @@ class ReviewService:
         return reviews
 
     async def create_review(self, review_data: ReviewBody, current_user_id: uuid.UUID):
-        self.logger.info(f"Creating a new review by user: {current_user_id} for hotel: {review_data.hotelID}")
+        self.logger.info(f"Creating a new review by user: {current_user_id} for hotel: {review_data.hotel_id}")
         db = await self._get_review_db()
 
         new_review = Review(
-            review_id=uuid.uuid4(),
+            review_id=None,
             rating=review_data.rating,
             user_id=current_user_id,
-            hotel_id=review_data.hotelID,
+            hotel_id=review_data.hotel_id,
             comment=review_data.comments,
         )
 
-        await db.upload_review(new_review)
-        self.logger.info(f"Review created successfully with ID: {new_review.review_id}")
+        review_id = await db.upload_review(new_review)
+        self.logger.info(f"Review created successfully with ID: {review_id}")
 
         return {"review_id": str(new_review.review_id)}
 

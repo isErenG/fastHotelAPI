@@ -4,7 +4,7 @@ from datetime import date
 
 @dataclass
 class Admin:
-    admin_id: uuid.UUID
+    user_id: uuid.UUID
     username: str
     email: str
     password: str
